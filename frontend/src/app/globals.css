@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+:root {
+  /* Permanent Enterprise Dark Theme */
+  --background: #020617;
+  --foreground: #f8fafc;
+  
+  --primary: #2563eb;
+  --primary-container: #1e3a8a;
+  --on-primary-container: #dbeafe;
+  
+  --secondary: #64748b;
+  --secondary-container: #1e293b;
+  
+  --surface: #0d1117;
+  --surface-variant: #1e293b;
+  --outline: #334155;
+  
+  --error: #ef4444;
+  --success: #22c55e;
+  --warning: #f59e0b;
+
+  /* Elevation (Shadows) */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer components {
+  .m3-card {
+    @apply bg-[var(--surface)] border border-[var(--outline)] rounded-[32px] p-8 transition-all duration-300;
+  }
+  
+  .m3-card-hover {
+    @apply hover:shadow-2xl hover:border-blue-500/30 cursor-pointer;
+  }
+  
+  .m3-button-primary {
+    @apply bg-[var(--primary)] text-white px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-blue-500/20;
+  }
+  
+  .m3-input {
+    @apply bg-gray-900 border border-[var(--outline)] rounded-2xl px-5 py-3 outline-none focus:border-[var(--primary)] focus:ring-1 focus:ring-[var(--primary)] transition-all text-sm;
+  }
+}
+
+/* Custom Scrollbar for Dark Mode */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 10px;
+  border: 2px solid var(--background);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.glass {
+  background: rgba(2, 6, 23, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
