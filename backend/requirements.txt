@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+torch
+torchvision
+numpy
+pillow
+python-multipart
+google-cloud-storage
+firebase-admin
+captum
+timm
+python-dotenv
+google-generativeai
+opencv-python-headless
+httpx
