@@ -13,6 +13,7 @@ gcloud run deploy sentinel-backend `
     --platform managed `
     --region us-central1 `
     --allow-unauthenticated `
+    --memory 2Gi `
     --port 8080
 
 # Get the Backend URL
@@ -24,8 +25,7 @@ Write-Host "Building and Deploying Frontend..."
 Set-Location ..\frontend
 
 # Build the frontend with the backend URL as an environment variable
-gcloud builds submit --tag gcr.io/$ProjectId/sentinel-frontend `
-    --build-arg NEXT_PUBLIC_API_URL=$BackendUrl
+gcloud builds submit --config cloudbuild.yaml --substitutions=_API_URL=$BackendUrl
 
 gcloud run deploy sentinel-frontend `
     --image gcr.io/$ProjectId/sentinel-frontend `
