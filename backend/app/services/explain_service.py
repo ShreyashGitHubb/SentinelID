@@ -7,7 +7,7 @@ load_dotenv()
 
 class ExplainService:
     def __init__(self):
-        api_key = os.getenv("GOOGLE_API_KEY") or "REMOVED_GEMINI_KEY"
+        api_key = os.getenv("GOOGLE_API_KEY")
         if api_key:
             genai.configure(api_key=api_key)
             self.model = genai.GenerativeModel('gemini-1.5-flash')

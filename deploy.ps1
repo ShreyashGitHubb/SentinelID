@@ -1,5 +1,7 @@
 param (
-    [string]$ProjectId = "solutionchallange-494310"
+    [string]$ProjectId = "solutionchallange-47940",
+    [string]$FirebaseApiKey,
+    [string]$GeminiApiKey
 )
 
 Write-Host "Starting SentinelID Deployment for Project: $ProjectId"
@@ -24,8 +26,16 @@ Write-Host "Backend deployed at: $BackendUrl"
 Write-Host "Building and Deploying Frontend..."
 Set-Location ..\frontend
 
-# Build the frontend with the backend URL as an environment variable
-gcloud builds submit --config cloudbuild.yaml --substitutions=_API_URL=$BackendUrl
+# Build the frontend with the backend URL and Firebase config as environment variables
+gcloud builds submit --config cloudbuild.yaml --substitutions=`
+_API_URL=$BackendUrl,`
+_FIREBASE_API_KEY=$FirebaseApiKey,`
+_FIREBASE_AUTH_DOMAIN="$ProjectId.firebaseapp.com",`
+_FIREBASE_PROJECT_ID=$ProjectId,`
+_FIREBASE_STORAGE_BUCKET="$ProjectId.firebasestorage.app",`
+_FIREBASE_MESSAGING_SENDER_ID="756330130127",`
+_FIREBASE_APP_ID="1:756330130127:web:e45e5e1a85e657cf0025ba",`
+_FIREBASE_MEASUREMENT_ID="G-KCH2093VNW"
 
 gcloud run deploy sentinel-frontend `
     --image gcr.io/$ProjectId/sentinel-frontend `
@@ -33,6 +43,12 @@ gcloud run deploy sentinel-frontend `
     --region us-central1 `
     --allow-unauthenticated `
     --port 8080
+
+# Update Backend with Gemini Key
+gcloud run services update sentinel-backend `
+    --platform managed `
+    --region us-central1 `
+    --set-env-vars "GOOGLE_API_KEY=$GeminiApiKey"
 
 $FrontendUrl = gcloud run services describe sentinel-frontend --platform managed --region us-central1 --format 'value(status.url)'
 
